@@ -50,13 +50,46 @@ const create =async (req,res)=>{
             status:"error",
             message:"Article could not be saved in data base"
         })
-    }
- 
+    }   
+}
 
-    
+const getArticles = async (req,res) =>{
+    try{
+        let articleQuery= await Articulo.find({})
+                        .sort({date:-1}).limit(1);
+                    
+        if(articleQuery){
+        res.status(200).json(
+            {status:"success",
+            url_param:req.params.last,
+            articleQuery
+            });
+        }else{
+            return res.status(404).json({
+                status:"error",
+                mensaje:"articles can not be find"
+            });
+        }    
+    }catch(err){
+        res.status(500).json({
+            status:"error",
+            message:"Articles are not available in data base"
+        })
+    }      
+}
+
+///get just one Article
+const one = async(req,res)=>{
+  /*  try{
+
+    }catch(){
+
+    };
+   */ 
 }
 
 
+
 module.exports ={
-    test,articlesapp,create
+    test,articlesapp,create,getArticles,one
 }
