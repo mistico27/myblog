@@ -74,22 +74,91 @@ const getArticles = async (req,res) =>{
         res.status(500).json({
             status:"error",
             message:"Articles are not available in data base"
-        })
+        });
     }      
 }
 
 ///get just one Article
-const one = async(req,res)=>{
-  /*  try{
+const findOne = async(req,res)=>{
+    let id = req.params.id;
 
-    }catch(){
+    try{
+       
+        Articulo.findById(id,(articulo,error)   =>{
+                if(error|| !articulo){
+                    res.status(500).json({
+                        status:"error",
+                        message:"Article was not found" 
+                     });
+                }
 
+            return res.status(200).json({
+                status:"success",
+                articulo,
+            })    
+
+
+        });
+
+    }catch(error){
+        res.status(500).json({
+           status:"error",
+           message:"Article was not found" 
+        });
     };
-   */ 
+   
+}
+
+
+const deleteArticle= async (req,res) =>{
+
+ try{
+    let articleTofind = req.params.id;
+    const myArticle = Articulo.findById(articleTofind);
+    await myArticle.deleteOne();
+    return res.status(200).json({
+        status:"success",
+        message:"article was deleted successfully"
+    })    
+ }catch(error){
+    res.status(400).json({
+        status:"error",
+        message:"Article was not found" 
+     });
+ }
+};
+
+
+const updateArticle = async(req,res)=>{
+    try {
+        const myUpdateArticle = await Articulo.findByIdAndUpdate(req.params.id,req.body,{new:true});
+        if(!updateArticle){
+            return res.status(400).json({
+                status:"error",
+                message:"Article was not found" 
+            });
+        }
+        
+        return res.status(200).json({
+            status:"success",
+            myUpdateArticle,
+            message:"article was updated successfully",
+        });    
+      
+    }catch (err) {
+        res.status(500).json({
+            status:"error",
+            message:"Error in the system please contact IT support..." 
+        });
+      }
+
 }
 
 
 
+
+
+
 module.exports ={
-    test,articlesapp,create,getArticles,one
+    test,articlesapp,create,getArticles,findOne,deleteArticle,updateArticle
 }
