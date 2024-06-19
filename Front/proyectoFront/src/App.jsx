@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import { Inicio } from './components/pages/inicio'
-import { Articulos } from './components/pages/articulos'
+
 import { Crear} from './components/pages/crear'
 import { Rutas } from './routing/rutas'
 import './App.css'
